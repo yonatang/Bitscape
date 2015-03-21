@@ -3,6 +3,7 @@ package me.yonatan.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import lombok.extern.slf4j.Slf4j;
 import me.yonatan.model.BitcasaFile;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -24,6 +25,7 @@ import java.util.List;
  * Created by yonatan on 12/1/14.
  */
 @Service
+@Slf4j
 public class ListFetcher {
     //Bitcasa's proprietary voodoo REST data structure
     @Autowired
@@ -61,8 +63,14 @@ public class ListFetcher {
     }
 
     public List<BitcasaFile> getFiles(String sendId, String path) throws IOException {
-        String jsonString = getMetaJson("https://drive.bitcasa.com/portal/v2/shares/" + sendId + "/meta");
+        String shareUrl = "https://drive.bitcasa.com/portal/v2/shares/" + sendId + "/meta";
+        String jsonString = getMetaJson(shareUrl);
         JsonNode jsonNode = objectMapper.reader().readTree(jsonString);
+        if (jsonNode.get("result").isNull()) {
+            String errorMessage = jsonNode.get("error").get("message").asText();
+            log.error("Error while fetching list from {}:\n{}", shareUrl, errorMessage);
+            throw new RuntimeException(errorMessage);
+        }
         ArrayNode items = (ArrayNode) jsonNode.get("result").get("items");
         List<BitcasaFile> result = new ArrayList<>();
         for (JsonNode item : items) {
