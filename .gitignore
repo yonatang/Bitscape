@@ -1,7 +1,6 @@
 report.txt
 target
 *.iml
-atlassian-ide-plugin.xml
 .idea
 src/main/resources/mockResponse.json
 src/main/resources/my-application.properties
