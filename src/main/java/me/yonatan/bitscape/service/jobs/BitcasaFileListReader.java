@@ -57,8 +57,8 @@ public class BitcasaFileListReader implements ItemReader<BitcasaFile> {
     @PostConstruct
     public void init() throws Exception {
         log.info("Getting files for sendId {}", getPartialSendId());
-        filesIter = getFiles(sendId).iterator();
         executor = Executors.newFixedThreadPool(poolSize);
+        filesIter = getFiles(sendId).iterator();
     }
 
     private String getMetaJson(String url) throws IOException {
