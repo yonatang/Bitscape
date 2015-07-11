@@ -16,6 +16,7 @@ import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.launch.support.SimpleJobLauncher;
 import org.springframework.batch.core.repository.JobRepository;
+import org.springframework.batch.core.step.skip.SkipPolicy;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
@@ -68,6 +69,7 @@ public class BatchConfig {
                 .processor(bitcasaDownloader)
                 .faultTolerant()
                 .skip(BitcasaFileException.class)
+                .skipLimit(Integer.MAX_VALUE)
                 .noSkip(RuntimeException.class)
                 .taskExecutor(simpleAsyncTaskExecutor)
                 .build();
