@@ -1,9 +1,9 @@
-package me.yonatan.model;
+package me.yonatan.bitscape.model;
 
 import lombok.Data;
 
 /**
- * Created by yonatan on 12/1/14.
+ * Created by yonatan on 10/7/2015.
  */
 @Data
 public class BitcasaFile {
@@ -15,5 +15,4 @@ public class BitcasaFile {
     private String digest;
     private String nonce;
     private String path;
-
 }
