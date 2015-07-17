@@ -115,7 +115,7 @@ public class BitcasaDownloader implements ItemProcessor<BitcasaFile, Void> {
             target.delete();
             HttpGet get = new HttpGet(fileUrl(domain, bitcasaFile));
 
-            log.info("Downloading file {} {}", bitcasaFile.getPath(), bitcasaFile.getName());
+            log.info("Downloading {} bytes of file {} {}", bitcasaFile.getSize(), bitcasaFile.getPath(), bitcasaFile.getName());
             try (CloseableHttpResponse response = client.execute(get);) {
                 try (InputStream is = response.getEntity().getContent()) {
                     log.debug("Saving {} as temp file {}", bitcasaFile.getName(), target);

@@ -24,6 +24,7 @@ import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -110,6 +111,12 @@ public class BitcasaFileListReader implements ItemReader<BitcasaFile> {
         }
         executor.shutdown();
         executor.awaitTermination(10, TimeUnit.SECONDS);
+        Collections.sort(files, new Comparator<BitcasaFile>() {
+            @Override
+            public int compare(BitcasaFile o1, BitcasaFile o2) {
+                return (int)(o1.getSize()-o2.getSize());
+            }
+        });
         return files;
     }
 
