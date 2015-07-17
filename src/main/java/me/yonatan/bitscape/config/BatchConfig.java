@@ -72,6 +72,7 @@ public class BatchConfig {
                 .skipLimit(Integer.MAX_VALUE)
                 .noSkip(RuntimeException.class)
                 .taskExecutor(simpleAsyncTaskExecutor)
+                .throttleLimit(30)
                 .build();
 
     }
